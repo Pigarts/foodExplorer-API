@@ -8,8 +8,11 @@ class UserRepository {
 
     async create({name, email, password}) {
         const user = {name, email, password}
-        console.log(user)
+
         const userId = await knex("users").insert(user);
+        if(userId == 1) {
+            await knex("users").update("adm", "true").where({id: 1})
+        }
         return {id: userId}
     } 
 
