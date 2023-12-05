@@ -11,6 +11,8 @@ const UPLOAD = multer(uploadsConfig.MULTER)
 
 const foodsController = new FoodsController();
 
+foodsRoutes.use(ensureAuth)
+
 foodsRoutes.post("/create", UPLOAD.single("img"), foodsController.create);
 foodsRoutes.put("/update", UPLOAD.single("img"), foodsController.update);
 foodsRoutes.delete("/delete/:id", foodsController.delete);

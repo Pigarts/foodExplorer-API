@@ -4,7 +4,7 @@ const UpdateFood = require("../services/updateFood")
 const FindFoodCategories = require("../services/findFoodCategories")
 const FindByCategory = require("../services/FoodsByCategory")
 const GetAllFoods = require("../services/findAllFoods")
-const FindFoodById = require("../services/FindFoodById")
+const GetFoodById = require("../services/GetFoodById")
 const DiskStorage = require("../providers/diskstorage")
 const DeleteFood = require("../services/deleteFood")
 const SearchFood = require("../services/searchFood")
@@ -85,10 +85,10 @@ class foodsController {
     
     async getFoodById(request, response ) {
           const foodRepository = new FoodRepository();
-          const findFoodById = new FindFoodById(foodRepository);
+          const getFoodById = new GetFoodById(foodRepository);
           const {id} = request.params
           try {
-            const food = await findFoodById.execute(id)
+            const food = await getFoodById.execute(id)
             return response.json(food) 
             }
           catch (error) {

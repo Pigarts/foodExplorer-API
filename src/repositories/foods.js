@@ -68,22 +68,13 @@ class FoodRepository {
         return allFoods
     } 
     
-    async findByCategory(category) {
-        const foodsByCategory = await knex('products').select('*').where('category', category);
-        return foodsByCategory
-    } 
-    
-    async findById(id) {
+    async getById(id) {
         const food = await knex('products').where('id', id).first()
         const foodIngredients = await knex('ingredients').where('product_id', id);
         const foodWithIngredients = {...food, foodIngredients}
         return foodWithIngredients
     }
 
-    async ingredientsById(id) {
-        const ingredients = await knex('ingredients').select('*').where('product_id', id);
-        return ingredients
-    }
 }
 
 module.exports = FoodRepository
