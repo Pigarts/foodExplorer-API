@@ -1,4 +1,4 @@
-class FindFoodCategories {
+class findFoodCategories {
     constructor(FoodRepository) {
         this.FoodRepository = FoodRepository;
     }
