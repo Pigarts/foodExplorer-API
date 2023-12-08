@@ -1,7 +1,7 @@
 const { compare } = require("bcryptjs");
 const {sign} = require("jsonwebtoken")
-const AppError = require("../utils/App.error")
-const authConfig = require("../configs/auth")
+const AppError = require("../../utils/App.error")
+const authConfig = require("../../configs/auth")
 
 class Sessions {
     constructor(UserRepository) {

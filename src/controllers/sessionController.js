@@ -1,6 +1,6 @@
 
 const UserRepository = require("../repositories/user");
-const Sessions = require("../services/sessions");
+const Sessions = require("../services/user/sessions");
 
 
 

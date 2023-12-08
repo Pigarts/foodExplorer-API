@@ -10,10 +10,8 @@ class DiskStorage {
         while (true) {
           try {
             await fs.access(tmpFilePath);
-            console.log("Arquivo disponível na pasta TMP. Movendo para a pasta UPLOADS...");
       
             await fs.rename(tmpFilePath, targetFilePath);
-            console.log("Arquivo movido com sucesso!");
             
             return file; 
           } catch (err) {

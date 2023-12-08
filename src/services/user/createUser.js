@@ -1,4 +1,4 @@
-const AppError = require("../utils/App.error")
+const AppError = require("../../utils/App.error")
 const { hash } = require("bcryptjs");
 
 class CreateUser {
@@ -28,12 +28,8 @@ class CreateUser {
             throw new AppError("senha é obrigatoria")
         }
 
-        if (password.length < 6) {
-            throw new AppError("A senha deve ter no minimo 6 caracteres e incluir letras maiúsculas, letras minúsculas e pelo menos um número");
-        }
-
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-        if (!passwordRegex.test(password)) {
+        if (!passwordRegex.test(password) || password.length < 6) {
             throw new AppError(
                 "A senha deve ter no minimo 6 caracteres e incluir letras maiúsculas, letras minúsculas e pelo menos um número");
         }

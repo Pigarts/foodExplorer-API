@@ -1,5 +1,5 @@
 const UserRepository = require("../repositories/user");
-const CreateUser = require("../services/createUser");
+const CreateUser = require("../services/user/createUser");
 
 class UsersController {
     async create( request, response ) {
@@ -11,6 +11,5 @@ class UsersController {
       response.status(201).json();
     }
  }
-
 
 module.exports = UsersController

@@ -38,6 +38,27 @@ class FoodRepository {
         await knex('products').where({ id: id }).del()
     }
     
+    async likeFood(user, food) {
+        const liked = {user_id: user, product_id: food }
+        const likedId = await knex("likedFoods").insert(liked);
+        return likedId
+    }
+
+    async unLikeFood(user, food) {
+
+
+        const unLiked = await knex("likedFoods").where({ product_id: food }).whereLike("user_id", user).del()
+        return unLiked
+    }
+
+    async getLikedFoods(user) {
+        const foods = await knex('products')
+        .innerJoin("likedFoods", "likedFoods.product_id", "products.id")
+        .select(["products.name", "products.img","products.id"])
+        .whereLike("likedFoods.user_id", `%${user}%`)
+        return foods
+    }
+
     async index(search) {
         const name = await knex('products')
         .select(["name", "img","id"])

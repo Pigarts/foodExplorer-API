@@ -1,4 +1,4 @@
-const AppError = require("../utils/App.error")
+const AppError = require("../../utils/App.error")
 const { hash } = require("bcryptjs");
 
 class DeleteFood {
@@ -7,7 +7,6 @@ class DeleteFood {
     }
     
     async execute(id) {
-        console.log("servs", id)
         if(!id) {
             throw new AppError("Prato não identificado")
         }

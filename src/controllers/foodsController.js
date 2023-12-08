@@ -1,14 +1,16 @@
 const FoodRepository = require("../repositories/foods")
-const CreateFood = require("../services/createFood")
-const UpdateFood = require("../services/updateFood")
-const FindFoodCategories = require("../services/findFoodCategories")
-const FindByCategory = require("../services/foodsByCategory")
-const GetAllFoods = require("../services/findAllFoods")
-const GetFoodById = require("../services/getFoodById")
+const CreateFood = require("../services/food/createFood")
+const UpdateFood = require("../services/food/updateFood")
+const FindFoodCategories = require("../services/food/get/findFoodCategories")
+const FindByCategory = require("../services/food/get/foodsByCategory")
+const GetAllFoods = require("../services/food/get/findAllFoods")
+const GetFoodById = require("../services/food/get/getFoodById")
 const DiskStorage = require("../providers/diskstorage")
-const DeleteFood = require("../services/deleteFood")
-const SearchFood = require("../services/searchFood")
-
+const DeleteFood = require("../services/food/deleteFood")
+const SearchFood = require("../services/food/get/searchFood")
+const LikeFood = require("../services/food/likeFood")
+const GetLikedFoods = require("../services/food/get/getLikedFoods")
+const UnLikeFood = require("../services/food/unLikeFood")
 
 class foodsController {
     async create( request, response ) {
@@ -46,9 +48,38 @@ class foodsController {
       const foodRepository = new FoodRepository();
       const deleteFood = new DeleteFood(foodRepository);
       const food = request.params
-      console.log("cont", food.id)
       await deleteFood.execute(food.id)
     }
+
+    async like(request, response) {
+      const foodRepository = new FoodRepository();
+      const likeFood = new LikeFood(foodRepository);
+      const {user, food} = request.body
+      await likeFood.execute(user, food)
+      response.status(201).json();
+    }
+
+    async unLike(request, response) {
+      const foodRepository = new FoodRepository();
+      const unLikeFood = new UnLikeFood(foodRepository);
+      const { user, food } = request.query;
+      
+      await unLikeFood.execute(user, food)
+      response.status(201).json();
+    }
+
+    async getLikeds(request, response ) {
+      const foodRepository = new FoodRepository();
+      const getLikedFoods = new GetLikedFoods(foodRepository);
+      const {user} = request.query
+      try {
+        const likeds = await getLikedFoods.execute(user)
+        return response.json(likeds) 
+        }
+      catch (error) {
+        return response.status(error.statusCode || 500).json({ error: error.message });
+  }
+}
 
     async getBySearch(request, response) {
       const foodRepository = new FoodRepository();
@@ -70,6 +101,7 @@ class foodsController {
   }
     
       }
+
     async getFoodByCategory(request, response ) {
       const foodRepository = new FoodRepository();
       const findByCategory = new FindByCategory(foodRepository);
