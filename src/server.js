@@ -7,7 +7,6 @@ const routes = require("./routes");
 const cors = require("cors");
 const uploadConfig = require("./configs/upload")
 
-
 const app = express()
 app.use(cors())
 app.use(express.json())

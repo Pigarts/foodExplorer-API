@@ -1,15 +1,9 @@
 const FoodRepository = require("../repositories/foods")
 const CreateFood = require("../services/food/createFood")
 const UpdateFood = require("../services/food/updateFood")
-const FindFoodCategories = require("../services/food/get/findFoodCategories")
-const FindByCategory = require("../services/food/get/foodsByCategory")
-const GetAllFoods = require("../services/food/get/findAllFoods")
-const GetFoodById = require("../services/food/get/getFoodById")
 const DiskStorage = require("../providers/diskstorage")
 const DeleteFood = require("../services/food/deleteFood")
-const SearchFood = require("../services/food/get/searchFood")
 const LikeFood = require("../services/food/likeFood")
-const GetLikedFoods = require("../services/food/get/getLikedFoods")
 const UnLikeFood = require("../services/food/unLikeFood")
 
 class foodsController {
@@ -22,9 +16,8 @@ class foodsController {
       const imgFileName = request.file.filename;
       const foodImg = await diskStorage.saveFile(imgFileName)
       food.img = foodImg
-      
       await createFood.execute(food)
-        response.status(201).json();
+      return response.status(201).json()
     }
 
     async update( request, response ) {
@@ -33,15 +26,17 @@ class foodsController {
       const diskStorage = new DiskStorage()
       const foodString = request.body.food;
       const food = JSON.parse(foodString);
-      if(!response.file && food.img) {
+      if(!request.file && food.img) {
+        console.log("sem igagem")
         await updateFood.execute(food)
-        response.status(201).json();
+        return response.status(200).json()
       }
       const imgFileName = request.file.filename;
+      console.log(imgFileName)
       const foodImg = await diskStorage.saveFile(imgFileName)
       food.img = foodImg
       await updateFood.execute(food)
-      response.status(201).json();
+      return response.status(200).json()
     }  
 
     async delete(request, response ) {
@@ -49,99 +44,28 @@ class foodsController {
       const deleteFood = new DeleteFood(foodRepository);
       const food = request.params
       await deleteFood.execute(food.id)
+      return response.status(200).json()
     }
 
     async like(request, response) {
       const foodRepository = new FoodRepository();
       const likeFood = new LikeFood(foodRepository);
-      const {user, food} = request.body
-      await likeFood.execute(user, food)
-      response.status(201).json();
+      const {food} = request.body
+      const user_id = request.user.id;
+      await likeFood.execute(user_id, food)
+      return response.status(200).json();
     }
 
     async unLike(request, response) {
       const foodRepository = new FoodRepository();
       const unLikeFood = new UnLikeFood(foodRepository);
-      const { user, food } = request.query;
-      
-      await unLikeFood.execute(user, food)
-      response.status(201).json();
+      const { food } = request.query;
+      const user_id = request.user.id;
+      await unLikeFood.execute(user_id, food)
+      return response.status(200).json();
     }
 
-    async getLikeds(request, response ) {
-      const foodRepository = new FoodRepository();
-      const getLikedFoods = new GetLikedFoods(foodRepository);
-      const {user} = request.query
-      try {
-        const likeds = await getLikedFoods.execute(user)
-        return response.json(likeds) 
-        }
-      catch (error) {
-        return response.status(error.statusCode || 500).json({ error: error.message });
-  }
+ 
 }
-
-    async getBySearch(request, response) {
-      const foodRepository = new FoodRepository();
-      const searchFood = new SearchFood(foodRepository);
-      const {search} = request.query
-      const searchedFoods = await searchFood.execute(search)
-      return response.json(searchedFoods)
-    }
-
-    async getCategories(request, response ) {
-      const foodRepository = new FoodRepository();
-      const findFoodCategories = new FindFoodCategories(foodRepository);
-      try {
-        const allCategories = await findFoodCategories.execute()
-        return response.json(allCategories) 
-        }
-      catch (error) {
-        return response.status(error.statusCode || 500).json({ error: error.message });
-  }
-    
-      }
-
-    async getFoodByCategory(request, response ) {
-      const foodRepository = new FoodRepository();
-      const findByCategory = new FindByCategory(foodRepository);
-      const {category} = request.params
-      try {
-        const foods = await findByCategory.execute(category)
-        return response.json(foods) 
-        }
-      catch (error) {
-        return response.status(error.statusCode || 500).json({ error: error.message });
-    }
-    }
-    
-    async getFoodById(request, response ) {
-          const foodRepository = new FoodRepository();
-          const getFoodById = new GetFoodById(foodRepository);
-          const {id} = request.params
-          try {
-            const food = await getFoodById.execute(id)
-            return response.json(food) 
-            }
-          catch (error) {
-            return response.status(error.statusCode || 500).json({ error: error.message });
-      }
-    }
-    
-    async getAllFoods(request, response ) {
-      const foodRepository = new FoodRepository();
-      const getAllFoods = new GetAllFoods(foodRepository);
-      const {category} = request.params
-      try {
-        const foods = await getAllFoods.execute(category)
-        return response.json(foods) 
-        }
-      catch (error) {
-        return response.status(error.statusCode || 500).json({ error: error.message });
-  }
-    }
-}
-
-
 
 module.exports = foodsController

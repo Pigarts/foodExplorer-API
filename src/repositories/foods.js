@@ -41,12 +41,12 @@ class FoodRepository {
     async likeFood(user, food) {
         const liked = {user_id: user, product_id: food }
         const likedId = await knex("likedFoods").insert(liked);
-        return likedId
+        if(likedId) {
+
+        } 
     }
 
     async unLikeFood(user, food) {
-
-
         const unLiked = await knex("likedFoods").where({ product_id: food }).whereLike("user_id", user).del()
         return unLiked
     }
