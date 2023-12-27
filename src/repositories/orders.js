@@ -16,7 +16,6 @@ class OrdersRepository {
     }
 
     async getAllUserOrders(user_id) {
-        console.log("repo")
         const orders = await knex("orders").select("*").where('user_id', user_id)
         .orderBy('created_at', 'desc');
         return orders

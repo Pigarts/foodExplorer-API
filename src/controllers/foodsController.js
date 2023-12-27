@@ -27,12 +27,10 @@ class foodsController {
       const foodString = request.body.food;
       const food = JSON.parse(foodString);
       if(!request.file && food.img) {
-        console.log("sem igagem")
         await updateFood.execute(food)
         return response.status(200).json()
       }
       const imgFileName = request.file.filename;
-      console.log(imgFileName)
       const foodImg = await diskStorage.saveFile(imgFileName)
       food.img = foodImg
       await updateFood.execute(food)

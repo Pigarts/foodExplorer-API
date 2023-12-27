@@ -28,7 +28,6 @@ class ordersController {
       const user_id = request.user.id;
       const ordersRepository = new OrdersRepository()
       const getAllUserOrders = new GetAllUserOrders(ordersRepository) 
-      console.log(user_id)
       const orders = await getAllUserOrders.execute(user_id) 
       response.json(orders);
     }
