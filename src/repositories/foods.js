@@ -41,9 +41,7 @@ class FoodRepository {
     async likeFood(user, food) {
         const liked = {user_id: user, product_id: food }
         const likedId = await knex("likedFoods").insert(liked);
-        if(likedId) {
-
-        } 
+        return likedId
     }
 
     async unLikeFood(user, food) {

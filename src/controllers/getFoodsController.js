@@ -10,9 +10,9 @@ class GetFoodsController {
     async getLikeds(request, response ) {
       const foodRepository = new FoodRepository();
       const getLikedFoods = new GetLikedFoods(foodRepository);
-      const {user} = request.query
+      const user_id = request.user.id;
       try {
-        const likeds = await getLikedFoods.execute(user)
+        const likeds = await getLikedFoods.execute(user_id)
         return response.status(200).json(likeds) 
         }
       catch (error) {
@@ -57,9 +57,8 @@ class GetFoodsController {
     async getAllFoods(request, response ) {
       const foodRepository = new FoodRepository();
       const getAllFoods = new GetAllFoods(foodRepository);
-      const {category} = request.params
       try {
-        const foods = await getAllFoods.execute(category)
+        const foods = await getAllFoods.execute()
         return response.status(200).json(foods) 
         }
       catch (error) {

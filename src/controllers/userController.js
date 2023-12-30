@@ -7,8 +7,7 @@ class UsersController {
       const userRepository = new UserRepository();
       const createUser = new CreateUser(userRepository);
       await createUser.execute({name, email, password})
-
-      response.status(201).json();
+      return response.status(201).json();
     }
  }
 

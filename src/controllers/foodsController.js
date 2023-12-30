@@ -48,7 +48,7 @@ class foodsController {
     async like(request, response) {
       const foodRepository = new FoodRepository();
       const likeFood = new LikeFood(foodRepository);
-      const {food} = request.body
+      const { food } = request.body
       const user_id = request.user.id;
       await likeFood.execute(user_id, food)
       return response.status(200).json();

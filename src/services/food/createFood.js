@@ -10,7 +10,7 @@ class CreateFood {
         const {category, name, descriptions, ingredients, price, img} = food
         
         if(!name || !category || !descriptions || !ingredients || !price || !img) {
-            throw new AppError("Preencha todos os campos xxxxxxx")
+            throw new AppError("Preencha todos os campos")
         }
         const createdFood = await this.FoodRepository.create({category, name, descriptions, price, img, ingredients})
 

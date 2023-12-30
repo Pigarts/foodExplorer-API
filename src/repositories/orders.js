@@ -28,7 +28,7 @@ class OrdersRepository {
     }
 
     async changeOrderStatus(newStatus, id) {
-        const order = await knex("orders").update({ status: newStatus }).where('id', id)
+        const order = await knex("orders").update({ status: newStatus, updated_at: knex.fn.now(), }).where('id', id)
         return order
     }
 }
