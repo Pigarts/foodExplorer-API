@@ -13,7 +13,7 @@
 #### projeto FoodExplorer #### 
 
  
-
+Link do projeto completo online: https://main--luminous-vacherin-9f308b.netlify.app/
  
 
 - a ideia do projeto é testar e concretizar os conhecimentos passados durante o curso.  
