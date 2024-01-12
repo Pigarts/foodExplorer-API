@@ -1,8 +1,12 @@
 # backend FoodExplorer  
 
  
+### últimos updates:
 
-   
+#### commit: "Remove Unused getCategories Functions"
+
+- Remoção das funções de getCategories:
+As rotas, a função do controlador, o serviço e a função do repositório para recuperação de todas as categorias de produtos registrados na tabela "products" foram removidos, pois não tinham mais utilidade.
 
  
 
@@ -889,63 +893,6 @@ com o parâmetro recebido, realiza uma pesquisa na tabela "products" onde o nome
         ]  
 
  
-
-#### get em "/foods/categories":  
-
- 
-
-esta rota é usada para buscar todas as categorias dos produtos cadastrados  
-
- 
-
-exemplo de requisição válida:  
-
-         
-
-        http://localhost:3333/foods/categories  
-
- 
-
-- Controller getFoodsController.getBySearch:  
-
- 
-
-apenas dispara o serviço FindFoodCategories em src\services\get\food\findFoodCategories.js  
-
- 
-
-- Serviço FindFoodCategories.js:  
-
- 
-
-dispara a função findCategory de FoodRepository em src\repositories\foods.js  
-
- 
-
-- foodRepository.findCategory:  
-
- 
-
-utilizando o knex, realiza uma busca por todos os itens da coluna "category" da tabela "products", utiliza nessa pesquisa a função distinct que evita a aparição de dados repetidos.  
-
- 
-
-exemplo de retorno da função:  
-
- 
-
-        [  
-
-            "Sobremesas",  
-
-            "Refeições",  
-
-            "Bebidas"  
-
-        ]  
-
- 
-
 #### get em "/foods/id/:id":  
 
  

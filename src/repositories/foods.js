@@ -77,11 +77,6 @@ class FoodRepository {
         return uniqueResults
     }
 
-    async findCategory() {
-        const categories = await knex('products').distinct('category').pluck('category');
-        return {categories}
-    } 
-
     async getAllFoods() {
         const allFoods = await knex('products').select('*');
         return allFoods

@@ -23,7 +23,6 @@ foodsRoutes.post("/like", foodsController.like)
 foodsRoutes.delete("/unlike", foodsController.unLike)
 
 foodsRoutes.get("/", getFoodsController.getBySearch)
-foodsRoutes.get("/categories", getFoodsController.getCategories);
 foodsRoutes.get("/id/:id", getFoodsController.getFoodById);
 foodsRoutes.get("/allFoods", getFoodsController.getAllFoods);
 foodsRoutes.get("/likeds", getFoodsController.getLikeds);
