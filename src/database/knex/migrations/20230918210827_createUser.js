@@ -6,7 +6,7 @@ exports.up = knex => {
         table.text("email");
         table.text("password");
         table.text("address");
-        table.text("adm");
+        table.enum("role", ["adm", "costumer"], {useNative: true, enumName: "roles"}).defaultTo("costumer").notNullable();
         table.timestamp("created_at").defaultTo(knex.fn.now());
       });
     });

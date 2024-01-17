@@ -3,6 +3,17 @@
  
 ### últimos updates:
 
+#### commit: "User Role Management, Authorization Verification, and Password Omission"
+
+- User role:
+A atribuição de cargo (role) de cada usuário foi modificada na migration createUser de forma que os cargos agora são "adm" ou "customer", sendo essas as únicas opções possíveis. O cargo (role) do usuário agora é passado nas requisições junto com o token de autenticação.
+
+- Verificação de cargo de usuário:
+Foi adicionado o middleware verifyUserAuthorization, responsável por fazer a verificação do cargo (role) do usuário que realizou a requisição. Caso o cargo (role) do usuário seja diferente do esperado, é disparado um AppError informando a mensagem "Unauthorized" com o statusCode 401.
+
+- Omissão da senha em sessions:
+A senha do usuário não é mais retornada nas requisições a "/sessions".
+ 
 #### commit: "Remove Unused getCategories Functions"
 
 - Remoção das funções de getCategories:
@@ -294,11 +305,25 @@ lançar no console o comando para iniciar o servidor
 
     cria e exporta a função responsável por verificar o token de usuário recebido dos headers das requisições, caso o token de usuário siga os padrões esperados e previamente configurados em src\configs\auth.js, a função next() que dá seguimento ao fluxo da aplicação. caso a verificação falhe, é disparado um erro informando que o token é invalido e interrompe esse fluxo  
 
- 
+    Exemplo de implementação:
 
-   
+        ordersRoutes.use(ensureAuth)
 
- 
+    Esta é uma aplicação geral para todoas as rotas deste Router.
+
+
+- Verificação de cargo de usuário:
+
+
+
+    Responsável por fazer a verificação do cargo (role) do usuário que realizou a requisição. 
+    Na sua utilização é necessario passar como parâmetro uma string com a role esperada, o middleware comparará a role do usuário com a informada no parâmetro.Caso o cargo(role) do usuário seja diferente do esperado, é disparado um AppError informando a mensagem "Unauthorized" com o statusCode 401.
+
+    Exemplo de implementação:
+
+        ordersRoutes.post("/", verifyUserAuthorization("adm"), verifyUserAuthorization("adm"), ordersController.order);
+
+
 
 ### Estrutura do Projeto 
 
@@ -1499,7 +1524,7 @@ exemplo de requisição val
 
  
 
-extrai o id do usuario dos headers da requisição e usa-o como parâmetro na função execute de src\services\get\order\getLatsOrderStatus.js  
+extrai o id do usuário dos headers da requisição e usa-o como parâmetro na função execute de src\services\get\order\getLatsOrderStatus.js  
 
  
 
@@ -1507,7 +1532,7 @@ extrai o id do usuario dos headers da requisição e usa-o como parâmetro na fu
 
  
 
-apenas usa o id do usuario fornecido como parametro para a função getLastOrderStatus de src\repositories\orders.js  
+apenas usa o id do usuário fornecido como parametro para a função getLastOrderStatus de src\repositories\orders.js  
 
  
 
@@ -1531,7 +1556,7 @@ exemplo de retorno da função:
 
  
 
-esta rota é utilizada para pesquisar no banco de dados todos os pedidos ja feitos pelo usuario.  
+esta rota é utilizada para pesquisar no banco de dados todos os pedidos ja feitos pelo usuário.  
 
  
 

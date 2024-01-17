@@ -11,7 +11,7 @@ class UserRepository {
 
         const userId = await knex("users").insert(user);
         if(userId == 1) {
-            await knex("users").update("adm", "true").where({id: 1})
+            await knex("users").update("role", "adm").where({id: 1})
         }
         return {id: userId}
     } 
